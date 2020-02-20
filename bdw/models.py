@@ -1,5 +1,5 @@
 from node2vec import Node2Vec
-from tqdm import trange
+from tqdm.auto import tqdm
 import random
 import math
 import numpy as np
@@ -36,11 +36,9 @@ def bdw(G, labeled_nodes, num_classes, dimensions=100, walk_length=10, num_walks
   
 
 
-  t = trange(max_iterations, desc='Learning Transition Function', leave=True)
-  t.update(1)
+  pbar = tqdm(range(0,max_iterations))
 
-  iteration = 0
-  while(iteration < max_iterations):
+  for iteration in pbar:
     random.shuffle(nodes)
     energy = 0.0
     for node in nodes:
@@ -69,10 +67,8 @@ def bdw(G, labeled_nodes, num_classes, dimensions=100, walk_length=10, num_walks
     
     iteration+=1
     
-    message = 'Iteration '+str(iteration)+' | Energy = '+str(energy)+' | %i'
-    t.set_description(message %iteration)
-    t.refresh()
-    t.update(1)
+    message = 'Iteration '+str(iteration)+' | Energy = '+str(energy)
+    pbar.set_description(message)
 
   for edge in G.edges(data=True):
     G[edge[0]][edge[1]]['weight'] = np.dot(G.nodes[edge[0]]['f'],G.nodes[edge[1]]['f']) + 0.000001
