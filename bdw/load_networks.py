@@ -31,8 +31,8 @@ def get_dataset_footbal():
   return G,num_classes
 
 def get_dataset_blogcatalog3():
-  !wget http://socialcomputing.asu.edu/uploads/1283153973/BlogCatalog-dataset.zip
-  !unzip BlogCatalog-dataset.zip
+  #!wget http://socialcomputing.asu.edu/uploads/1283153973/BlogCatalog-dataset.zip
+  #!unzip BlogCatalog-dataset.zip
   df_edges = pd.read_csv('BlogCatalog-dataset/data/edges.csv',header=None)
   df_groups = pd.read_csv('BlogCatalog-dataset/data/group-edges.csv',header=None)
   G = nx.Graph()
