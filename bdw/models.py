@@ -70,6 +70,13 @@ def bdw(G, labeled_nodes, num_classes, dimensions=100, walk_length=10, num_walks
     message = 'Iteration '+str(iteration)+' | Energy = '+str(energy)
     pbar.set_description(message)
 
+  print('cmn')
+  cmn = np.array([0.0]*num_classes)
+  for node in G.nodes():
+    cmn += G.nodes[node]['f']
+  for node in G.nodes():
+    G.nodes[node]['f'] /= cmn
+    
   for edge in G.edges(data=True):
     G[edge[0]][edge[1]]['weight'] = np.dot(G.nodes[edge[0]]['f'],G.nodes[edge[1]]['f']) + 0.000001
     #print(edge)
