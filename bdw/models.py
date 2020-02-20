@@ -18,6 +18,7 @@ def deepwalk(G, dimensions=100, walk_length=10, num_walks=30, window=10):
 def bdw(G, labeled_nodes, num_classes, dimensions=100, walk_length=10, num_walks=30, window=10, gamma=1.0, max_iterations=15):
 
   nodes = []
+  delta = 0.000001
 
   for node in G.nodes():
     G.nodes[node]['f'] = np.array([0.0]*num_classes)
@@ -70,15 +71,14 @@ def bdw(G, labeled_nodes, num_classes, dimensions=100, walk_length=10, num_walks
     message = 'Iteration '+str(iteration)+' | Energy = '+str(energy)
     pbar.set_description(message)
 
-  print('cmn')
   cmn = np.array([0.0]*num_classes)
   for node in G.nodes():
     cmn += G.nodes[node]['f']
   for node in G.nodes():
-    G.nodes[node]['f'] /= cmn
+    G.nodes[node]['f'] /= (cmn+delta)
     
   for edge in G.edges(data=True):
-    G[edge[0]][edge[1]]['weight'] = np.dot(G.nodes[edge[0]]['f'],G.nodes[edge[1]]['f']) + 0.000001
+    G[edge[0]][edge[1]]['weight'] = np.dot(G.nodes[edge[0]]['f'],G.nodes[edge[1]]['f']) + delta
     #print(edge)
 
   model = Node2Vec(G, dimensions=dimensions, walk_length=walk_length, num_walks=num_walks, workers=1, q=1, p=1)
