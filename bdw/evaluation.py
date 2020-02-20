@@ -3,7 +3,7 @@ from sklearn.svm import LinearSVC
 from sklearn.metrics import classification_report
 
 
-def get_train_test(G, labeled_nodes):
+def get_train_test(G, labeled_nodes, model):
   X_train = []
   y_train = []
   X_test = []
