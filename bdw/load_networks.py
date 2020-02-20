@@ -48,4 +48,4 @@ def get_dataset_blogcatalog3():
 
 
 #G,num_classes = get_dataset_blogcatalog3()
-G,num_classes = get_dataset_footbal()
+#G,num_classes = get_dataset_footbal()
