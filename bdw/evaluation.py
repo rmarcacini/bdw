@@ -32,7 +32,7 @@ def linear_svc(X_train, X_test, y_train, y_test):
   return y_preds
 
 def metrics(y_test, y_preds):
-  return classification_report(y_test, y_preds, output_dict=True)
+  return classification_report(y_test, y_preds, output_dict=True, zero_division=0)
 
 
 from sklearn.model_selection import train_test_split
