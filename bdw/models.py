@@ -1,5 +1,5 @@
 from node2vec import Node2Vec
-from tqdm.auto import tqdm
+from tqdm import tqdm
 import random
 import math
 import numpy as np
