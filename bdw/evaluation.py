@@ -38,14 +38,14 @@ def metrics(y_test, y_preds):
 from sklearn.model_selection import train_test_split
 
 
-def sample_labeled_nodes(G,train_size=0.3):
+def sample_labeled_nodes(G,train_size=0.3,random_state=42):
   T = []
   t = []
   for node in G.nodes():
     T.append([node])
     t.append([G.nodes[node]['label']])
 
-  T_train, T_test, t_train, t_test = train_test_split(T, t, test_size=1.0-train_size, random_state=42)
+  T_train, T_test, t_train, t_test = train_test_split(T, t, test_size=1.0-train_size, random_state=random_state)
 
   labeled_nodes = []
   for s in T_train: labeled_nodes.append(s[0])
