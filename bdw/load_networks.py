@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import urllib.request as urllib
 
-def get_dataset_footbal():
+def football():
 
-  print('Loading footbal network...')
+  print('Loading football network...')
   url = "http://websensors.net.br/projects/biased-deep-walk/football.zip"
 
   sock = urllib.urlopen(url)  # open URL
