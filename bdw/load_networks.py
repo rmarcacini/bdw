@@ -61,7 +61,7 @@ def blogcatalog3():
   return G,num_classes
 
 
-def ppi_human_sapiens():
+def ppi_homo_sapiens():
   
   print('Loading PPI-HomoSapiens-MonoLabel network...')
   url = "http://websensors.net.br/projects/biased-deep-walk/PPI-HomoSapiens-MonoLabel.zip"
