@@ -87,5 +87,31 @@ def ppi_homo_sapiens():
   num_classes = 50
   return G,num_classes
 
+def wikipedia():
+  
+  print('Loading Wikipedia-Term-PoS network...')
+  url = "http://websensors.net.br/projects/biased-deep-walk/Wikipedia-Term-PoS.zip"
+
+  zipfile = urllib.URLopener()
+  zipfile.retrieve(url, 'Wikipedia-Term-PoS.zip')
+
+  with ZipFile('Wikipedia-Term-PoS.zip', 'r') as zipObj:
+     # Extract all the contents of zip file in different directory
+     zipObj.extractall('Wikipedia-Term-PoS')
+
+  df_edges = pd.read_csv('Wikipedia-Term-PoS/edges.csv')
+  df_edges['source'] = df_edges['source'].astype(str)+':n'
+  df_edges['target'] = df_edges['target'].astype(str)+':n'
+
+  G = nx.Graph()
+  G = nx.from_pandas_edgelist(df_edges, create_using=G)
+
+  df_groups = pd.read_csv('Wikipedia-Term-PoS/groups.csv')
+  for index,row in df_groups.iterrows():
+      G.nodes[str(row[0])+':n']['label'] = row[1]
+        
+  num_classes = 36
+  return G,num_classes
+
 #G,num_classes = get_dataset_blogcatalog3()
 #G,num_classes = get_dataset_footbal()
