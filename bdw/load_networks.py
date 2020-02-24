@@ -61,5 +61,31 @@ def blogcatalog3():
   return G,num_classes
 
 
+def ppi_human_sapiens():
+  
+  print('Loading PPI-HomoSapiens-MonoLabel network...')
+  url = "http://websensors.net.br/projects/biased-deep-walk/PPI-HomoSapiens-MonoLabel.zip"
+
+  zipfile = urllib.URLopener()
+  zipfile.retrieve(url, 'PPI-HomoSapiens-MonoLabel.zip')
+
+  with ZipFile('PPI-HomoSapiens-MonoLabel.zip', 'r') as zipObj:
+     # Extract all the contents of zip file in different directory
+     zipObj.extractall('PPI-HomoSapiens-MonoLabel')
+
+  df_edges = pd.read_csv('PPI-HomoSapiens-MonoLabel/edges.csv')
+  df_edges['source'] = df_edges['source'].astype(str)+':n'
+  df_edges['target'] = df_edges['target'].astype(str)+':n'
+
+  G = nx.Graph()
+  G = nx.from_pandas_edgelist(df_edges, create_using=G)
+
+  df_groups = pd.read_csv('PPI-HomoSapiens-MonoLabel/groups.csv')
+  for index,row in df_groups.iterrows():
+      G.nodes[str(row[0])+':n']['label'] = row[1]
+        
+  num_classes = 50
+  return G,num_classes
+
 #G,num_classes = get_dataset_blogcatalog3()
 #G,num_classes = get_dataset_footbal()
