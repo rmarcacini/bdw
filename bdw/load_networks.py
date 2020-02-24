@@ -47,14 +47,15 @@ def blogcatalog3():
   df_edges = pd.read_csv('BlogCatalog-dataset/BlogCatalog-dataset/data/edges.csv',header=None)
 
   df_edges.columns = ['source', 'target']
-  df_edges
+  df_edges['source'] = df_edges['source'].astype(str)+':n'
+  df_edges['target'] = df_edges['target'].astype(str)+':n'
 
   G = nx.Graph()
   G = nx.from_pandas_edgelist(df_edges, create_using=G)
 
   df_groups = pd.read_csv('BlogCatalog-dataset/BlogCatalog-dataset/data/group-edges.csv',header=None)
   for index,row in df_groups.iterrows():
-      G.nodes[row[0]]['label'] = row[1]
+      G.nodes[str(row[0])+':n']['label'] = row[1]
         
   num_classes = 39
   return G,num_classes
