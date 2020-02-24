@@ -30,19 +30,30 @@ def football():
 
   return G,num_classes
 
-def get_dataset_blogcatalog3():
-  #!wget http://socialcomputing.asu.edu/uploads/1283153973/BlogCatalog-dataset.zip
-  #!unzip BlogCatalog-dataset.zip
-  df_edges = pd.read_csv('BlogCatalog-dataset/data/edges.csv',header=None)
-  df_groups = pd.read_csv('BlogCatalog-dataset/data/group-edges.csv',header=None)
+def blogcatalog3():
+  
+  print('Loading BlogCatalog network...')
+  url = "http://websensors.net.br/projects/biased-deep-walk/BlogCatalog-dataset.zip"    
+
+  zipfile = urllib.URLopener()
+  zipfile.retrieve(url, 'BlogCatalog-dataset.zip')
+
+  with ZipFile('BlogCatalog-dataset.zip', 'r') as zipObj:
+     # Extract all the contents of zip file in different directory
+     zipObj.extractall('BlogCatalog-dataset')
+
+  df_edges = pd.read_csv('BlogCatalog-dataset/BlogCatalog-dataset/data/edges.csv',header=None)
+
+  df_edges.columns = ['source', 'target']
+  df_edges
+
   G = nx.Graph()
-  for index,row in df_edges.iterrows():
-    G.add_edge(str(row[0])+':node',str(row[1])+':node')
-  
+  G = nx.from_pandas_edgelist(df_edges, create_using=G)
+
+  df_groups = pd.read_csv('BlogCatalog-dataset/BlogCatalog-dataset/data/group-edges.csv',header=None)
   for index,row in df_groups.iterrows():
-    node_id = str(row[0])+':node'
-    G.nodes[node_id]['label'] = row[1]
-  
+      G.nodes[row[0]]['label'] = row[1]
+        
   num_classes = 39
   return G,num_classes
 
