@@ -201,3 +201,32 @@ def gene():
         
   num_classes = 2
   return G,num_classes
+
+
+def webkb_wisc():
+  
+  print('Loading WebKB Wisk network...')
+  url = "http://websensors.net.br/projects/biased-deep-walk/webkb-wisc.zip"
+
+  zipfile = urllib.URLopener()
+  zipfile.retrieve(url, 'webkb-wisc.zip')
+
+  with ZipFile('webkb-wisc.zip', 'r') as zipObj:
+     # Extract all the contents of zip file in different directory
+     zipObj.extractall('webkb-wisc')
+
+
+  df_edges = pd.read_csv('webkb-wisc/webkb-wisc.edges',sep=" ",header=None,usecols=range(2))
+  df_edges.columns = ['source', 'target']
+  df_edges['source'] = df_edges['source'].astype(str)+':n'
+  df_edges['target'] = df_edges['target'].astype(str)+':n'
+
+  G = nx.Graph()
+  G = nx.from_pandas_edgelist(df_edges, create_using=G)
+
+  df_groups = pd.read_csv('webkb-wisc/webkb-wisc.node_labels',sep=" ",header=None,usecols=range(2))
+  for index,row in df_groups.iterrows():
+      G.nodes[str(row[0])+':n']['label'] = row[1]
+        
+  num_classes = 5
+  return G,num_classes
