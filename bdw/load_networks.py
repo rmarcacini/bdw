@@ -141,3 +141,33 @@ def terrorist_rel():
         
   num_classes = 2
   return G,num_classes
+
+
+
+def cora():
+  
+  print('Loading Cora network...')
+  url = "http://websensors.net.br/projects/biased-deep-walk/cora.zip"
+
+  zipfile = urllib.URLopener()
+  zipfile.retrieve(url, 'cora.zip')
+
+  with ZipFile('cora.zip', 'r') as zipObj:
+     # Extract all the contents of zip file in different directory
+     zipObj.extractall('cora')
+
+
+  df_edges = pd.read_csv('cora/cora.edges',sep=",",header=None,usecols=range(2))
+  df_edges.columns = ['source', 'target']
+  df_edges['source'] = df_edges['source'].astype(str)+':n'
+  df_edges['target'] = df_edges['target'].astype(str)+':n'
+
+  G = nx.Graph()
+  G = nx.from_pandas_edgelist(df_edges, create_using=G)
+
+  df_groups = pd.read_csv('cora/cora.node_labels',sep=",",header=None,usecols=range(2))
+  for index,row in df_groups.iterrows():
+      G.nodes[str(row[0])+':n']['label'] = row[1]
+        
+  num_classes = 7
+  return G,num_classes
